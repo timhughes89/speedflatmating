@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_load_from_network"
+        android:title="@string/load_data_from_network"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_load_from_local"
+        android:title="@string/load_data_from_local_assets"
+        app:showAsAction="never"/>
+
+
+</menu>
