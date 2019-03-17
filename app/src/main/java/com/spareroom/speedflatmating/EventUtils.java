@@ -16,7 +16,7 @@ import java.util.Locale;
 
 public class EventUtils {
 
-    private SimpleDateFormat utcFormatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.getDefault());
+    private SimpleDateFormat utcFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMMM", Locale.getDefault());
     private SimpleDateFormat timeFormatter = new SimpleDateFormat("h:mm a", Locale.getDefault());
 
@@ -70,14 +70,4 @@ public class EventUtils {
     public void loadImage(Context context, String imageUrl, ImageView imageView) {
         Glide.with(context).load(imageUrl).centerCrop().into(imageView);
     }
-
-    public void sortEventsByDate(List<Event> eventList) {
-        Collections.sort(eventList, new Comparator<Event>() {
-            @Override
-            public int compare(Event o1, Event o2) {
-                return o1.getStartTime().compareTo(o2.getStartTime());
-            }
-        });
-    }
-
 }

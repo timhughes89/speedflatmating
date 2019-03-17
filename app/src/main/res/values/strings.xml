@@ -9,4 +9,5 @@
     <string name="load_data_from_local_assets">Load data from local assets</string>
     <string name="upcoming_tab_label">Upcoming</string>
     <string name="archived_tab_label">Archived</string>
+    <string name="no_archived_events_label">No archived events</string>
 </resources>

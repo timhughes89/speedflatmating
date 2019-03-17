@@ -1,9 +1,12 @@
 package com.spareroom.speedflatmating.controller.fragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,9 +45,12 @@ public class UpcomingEventFragment extends Fragment {
     private View mView;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
+    private MenuItem ascendingMenuItem;
+    private MenuItem descendingMenuItem;
     private EventUtils mEventUtils = new EventUtils();
 
-    public UpcomingEventFragment(){}
+    public UpcomingEventFragment() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +76,6 @@ public class UpcomingEventFragment extends Fragment {
     }
 
     private void fetchDataFromNetwork() {
-
         EventApiService service = RetrofitClientInstance.getRetrofitInstance().create(EventApiService.class);
         Call<List<Event>> call = service.getEvents();
         call.enqueue(new Callback<List<Event>>() {
@@ -99,9 +104,7 @@ public class UpcomingEventFragment extends Fragment {
     }
 
     private void runLayoutAnimation() {
-
         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation_fall_down);
-
         if (mRecyclerView.getAdapter() != null) {
             mRecyclerView.setLayoutAnimation(layoutAnimationController);
             mRecyclerView.scheduleLayoutAnimation();
@@ -115,7 +118,6 @@ public class UpcomingEventFragment extends Fragment {
                 return o1.getStartTime().compareTo(o2.getStartTime());
             }
         });
-
         updateAdapter(eventList);
     }
 
@@ -132,20 +134,28 @@ public class UpcomingEventFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
+        ascendingMenuItem = menu.findItem(R.id.action_order_ascending);
+        descendingMenuItem = menu.findItem(R.id.action_order_descending);
+        ascendingMenuItem.setChecked(true);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int itemId = item.getItemId();
 
         switch (itemId) {
-            case R.id.action_load_from_local:
+            case R.id.action_order_ascending:
                 sortByAscending(eventList);
+                ascendingMenuItem.setChecked(true);
+                descendingMenuItem.setChecked(false);
                 break;
-            case R.id.action_load_from_network:
+            case R.id.action_order_descending:
                 sortByDescending(eventList);
+                ascendingMenuItem.setChecked(false);
+                descendingMenuItem.setChecked(true);
                 break;
         }
         return super.onOptionsItemSelected(item);
