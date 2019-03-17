@@ -7,7 +7,8 @@ public class Event {
     private String venue;
     private String startTime;
     private String endTime;
-    private String free;
+    private String cost;
+
 
     public String getImageUrl() {
         return imageUrl;
@@ -49,11 +50,11 @@ public class Event {
         this.endTime = endTime;
     }
 
-    public String getFree() {
-        return free;
+    public String getCost() {
+        return cost;
     }
 
-    public void setFree(String free) {
-        this.free = free;
+    public void setCost(String cost) {
+        this.cost = cost;
     }
 }

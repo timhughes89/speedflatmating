@@ -13,9 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.spareroom.speedflatmating.R;
+import com.spareroom.speedflatmating.controller.adapters.UpcomingEventAdapter;
 import com.spareroom.speedflatmating.model.Event;
 import com.spareroom.speedflatmating.network.EventApiService;
 import com.spareroom.speedflatmating.network.RetrofitClientInstance;
+import com.spareroom.speedflatmating.ui.ItemOffsetDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +26,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EventListFragment extends Fragment {
+public class UpcomingEventFragment extends Fragment {
 
-    private static final String TAG = EventListFragment.class.getSimpleName();
+    private static final String TAG = UpcomingEventFragment.class.getSimpleName();
 
     private List<Event> eventList = new ArrayList<>();
     private View mView;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
+    private UpcomingEventAdapter mUpcomingEventAdapter;
 
-    public EventListFragment(){}
+
+    public UpcomingEventFragment(){}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,17 +48,24 @@ public class EventListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.frag_list, container, false);
+        mView = inflater.inflate(R.layout.frag_upcoming_event, container, false);
         initUI();
         fetchData();
         return mView;
     }
 
     private void initUI() {
+        int spacing = getResources().getDimensionPixelSize(R.dimen.unitX1);
         mProgressBar = mView.findViewById(R.id.progress_bar);
         mRecyclerView = mView.findViewById(R.id.recycler_view_event_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.addItemDecoration(new ItemOffsetDecoration(spacing));
+    }
 
+    private void updateAdapter(List<Event> eventList) {
+        mUpcomingEventAdapter = new UpcomingEventAdapter(getContext());
+        mUpcomingEventAdapter.addEvents(eventList);
+        mRecyclerView.setAdapter(mUpcomingEventAdapter);
     }
 
     private void fetchData() {
@@ -67,6 +78,7 @@ public class EventListFragment extends Fragment {
                 if (response.body() != null) {
                     eventList = response.body();
                     mProgressBar.setVisibility(View.GONE);
+                    updateAdapter(eventList);
                 }
             }
 

@@ -2,19 +2,30 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="240dp"
+    android:background="@color/colorPrimaryDark"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:id="@+id/image_view_event_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/event_image_content_description"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:background="@color/colorPrimaryDark"
-        tools:layout_height="180dp"
-        android:contentDescription="@string/event_image_content_description" />
+        tools:background="@color/colorPrimaryDark" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/black_gradient"/>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
@@ -27,16 +38,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/text_view_event_status"
+            android:id="@+id/text_view_event_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
+            android:textAllCaps="true"
             tools:text="STATUS" />
 
     </android.support.constraint.ConstraintLayout>
 
     <TextView
-        android:id="@+id/text_view_event_name"
+        android:id="@+id/text_view_event_venue"
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

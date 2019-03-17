@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.spareroom.speedflatmating.R;
+import com.spareroom.speedflatmating.controller.adapters.ViewPagerAdapter;
 
 public class MainFragment extends Fragment {
 
@@ -40,18 +41,7 @@ public class MainFragment extends Fragment {
 
     private void initUI() {
         initToolbar();
-        initViewPager();
-        initTabLayout();
-    }
-
-    private void initTabLayout() {
-        TabLayout tabLayout = mView.findViewById(R.id.tab_bar_layout);
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.upcoming_tab_label));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.archived_tab_label));
-    }
-
-    private void initViewPager() {
-        mViewPager = mView.findViewById(R.id.view_pager);
+        initViewPagerTabLayout();
     }
 
     private void initToolbar() {
@@ -60,6 +50,35 @@ public class MainFragment extends Fragment {
         if (appCompatActivity != null) {
             appCompatActivity.setSupportActionBar(toolbar);
         }
+    }
+
+    private void initViewPagerTabLayout() {
+        mTabLayout = mView.findViewById(R.id.tab_bar_layout);
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.upcoming_tab_label));
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.archived_tab_label));
+        mViewPager = mView.findViewById(R.id.view_pager);
+
+        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
+        pagerAdapter.addFragment(new UpcomingEventFragment());
+        pagerAdapter.addFragment(new ArchivedEventFragment());
+        mViewPager.setAdapter(pagerAdapter);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
