@@ -8,6 +8,7 @@ public class Event {
     private String startTime;
     private String endTime;
     private String cost;
+    private String phoneNumber = "0161 768 1162";
 
     public String getImageUrl() {
         return imageUrl;
@@ -55,5 +56,13 @@ public class Event {
 
     public void setCost(String cost) {
         this.cost = cost;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

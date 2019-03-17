@@ -9,9 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.spareroom.speedflatmating.EventUtils;
+import com.spareroom.speedflatmating.utils.EventUtils;
 import com.spareroom.speedflatmating.R;
 import com.spareroom.speedflatmating.model.Event;
+import com.spareroom.speedflatmating.ui.OnItemClickListener;
 
 import java.util.List;
 
@@ -20,9 +21,15 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
     private Context mContext;
     private List<Event> mEventList;
     private EventUtils mEventUtils = new EventUtils();
+    private OnItemClickListener mOnItemClickListener;
 
-    public UpcomingEventAdapter(Context context) {
+    public UpcomingEventAdapter(Context context, OnItemClickListener onItemClickListener) {
         this.mContext = context;
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -34,8 +41,8 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Event event = mEventList.get(position);
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        final Event event = mEventList.get(position);
 
         if (event != null) {
 
@@ -49,6 +56,13 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
             holder.textViewEventTime.setText(formattedEventTime);
 
             mEventUtils.loadImage(mContext, event.getImageUrl(), holder.imageViewEventImage);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(holder.getAdapterPosition(), event);
+                }
+            });
         }
     }
 

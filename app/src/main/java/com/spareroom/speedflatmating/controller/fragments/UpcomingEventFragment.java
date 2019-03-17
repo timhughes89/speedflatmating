@@ -1,12 +1,11 @@
 package com.spareroom.speedflatmating.controller.fragments;
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,13 +19,14 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ProgressBar;
 
-import com.spareroom.speedflatmating.EventUtils;
+import com.spareroom.speedflatmating.utils.EventUtils;
 import com.spareroom.speedflatmating.R;
 import com.spareroom.speedflatmating.controller.adapters.UpcomingEventAdapter;
 import com.spareroom.speedflatmating.model.Event;
 import com.spareroom.speedflatmating.network.EventApiService;
 import com.spareroom.speedflatmating.network.RetrofitClientInstance;
 import com.spareroom.speedflatmating.ui.ItemOffsetDecoration;
+import com.spareroom.speedflatmating.ui.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UpcomingEventFragment extends Fragment {
+public class UpcomingEventFragment extends Fragment implements OnItemClickListener {
 
     private static final String TAG = UpcomingEventFragment.class.getSimpleName();
 
@@ -96,10 +96,11 @@ public class UpcomingEventFragment extends Fragment {
     }
 
     private void updateAdapter(List<Event> eventList) {
-        UpcomingEventAdapter upcomingEventAdapter = new UpcomingEventAdapter(getContext());
+        UpcomingEventAdapter upcomingEventAdapter = new UpcomingEventAdapter(getContext(), this);
         upcomingEventAdapter.addEvents(eventList);
         mRecyclerView.setAdapter(upcomingEventAdapter);
         upcomingEventAdapter.notifyDataSetChanged();
+        upcomingEventAdapter.setOnItemClickListener(this);
         runLayoutAnimation();
     }
 
@@ -140,8 +141,6 @@ public class UpcomingEventFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
@@ -159,5 +158,12 @@ public class UpcomingEventFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(int position, Event event) {
+        Uri phoneNumber = Uri.parse("tel:" + event.getPhoneNumber());
+        Intent callIntent = new Intent(Intent.ACTION_DIAL, phoneNumber);
+        startActivity(callIntent);
     }
 }

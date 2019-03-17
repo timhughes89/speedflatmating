@@ -1,17 +1,13 @@
-package com.spareroom.speedflatmating;
+package com.spareroom.speedflatmating.utils;
 
 import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.spareroom.speedflatmating.model.Event;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class EventUtils {
