@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.spareroom.speedflatmating.EventUtils;
 import com.spareroom.speedflatmating.R;
 import com.spareroom.speedflatmating.model.Event;
 
@@ -19,6 +19,7 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
 
     private Context mContext;
     private List<Event> mEventList;
+    private EventUtils mEventUtils = new EventUtils();
 
     public UpcomingEventAdapter(Context context) {
         this.mContext = context;
@@ -37,15 +38,17 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
         Event event = mEventList.get(position);
 
         if (event != null) {
+
+            String formattedStartDate = mEventUtils.getFormattedStartDate(event.getStartTime());
+            String formattedEventTime = mEventUtils.getFormattedTime(event.getStartTime(), event.getEndTime());
+
             holder.textViewEventCost.setText(event.getCost());
             holder.textViewEventVenue.setText(event.getVenue());
             holder.textViewEventLocation.setText(event.getLocation());
-            holder.textViewEventDate.setText(event.getStartTime());
-            holder.textViewEventTime.setText(event.getEndTime());
+            holder.textViewEventDate.setText(formattedStartDate);
+            holder.textViewEventTime.setText(formattedEventTime);
 
-            Glide.with(mContext)
-                    .load(event.getImageUrl())
-                    .into(holder.imageViewEventImage);
+            mEventUtils.loadImage(mContext, event.getImageUrl(), holder.imageViewEventImage);
         }
     }
 

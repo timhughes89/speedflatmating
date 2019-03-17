@@ -2,13 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_load_from_network"
-        android:title="@string/load_data_from_network"
-        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_load_from_network"
+        android:checkable="true"
+        android:title="@string/order_by_ascending"
+        app:showAsAction="never" />
 
-    <item android:id="@+id/action_load_from_local"
-        android:title="@string/load_data_from_local_assets"
-        app:showAsAction="never"/>
-
+    <item
+        android:id="@+id/action_load_from_local"
+        android:checkable="true"
+        android:title="@string/order_by_descending"
+        app:showAsAction="never" />
 
 </menu>

@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">SpeedFlatmating</string>
     <string name="event_image_content_description">Event Image</string>
+
+    <string name="order_by_ascending">Order ascending</string>
+    <string name="order_by_descending">Order descending</string>
+
     <string name="load_data_from_network">Load data from network</string>
     <string name="load_data_from_local_assets">Load data from local assets</string>
     <string name="upcoming_tab_label">Upcoming</string>

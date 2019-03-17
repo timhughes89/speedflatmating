@@ -9,7 +9,6 @@ public class Event {
     private String endTime;
     private String cost;
 
-
     public String getImageUrl() {
         return imageUrl;
     }
