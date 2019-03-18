@@ -19,7 +19,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ProgressBar;
 
-import com.spareroom.speedflatmating.utils.EventUtils;
 import com.spareroom.speedflatmating.R;
 import com.spareroom.speedflatmating.controller.adapters.UpcomingEventAdapter;
 import com.spareroom.speedflatmating.model.Event;
@@ -47,7 +46,6 @@ public class UpcomingEventFragment extends Fragment implements OnItemClickListen
     private RecyclerView mRecyclerView;
     private MenuItem ascendingMenuItem;
     private MenuItem descendingMenuItem;
-    private EventUtils mEventUtils = new EventUtils();
 
     public UpcomingEventFragment() {
     }

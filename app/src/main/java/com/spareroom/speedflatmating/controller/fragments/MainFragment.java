@@ -9,19 +9,23 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.spareroom.speedflatmating.R;
 import com.spareroom.speedflatmating.controller.adapters.ViewPagerAdapter;
+import com.spareroom.speedflatmating.model.Event;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainFragment extends Fragment {
 
     private View mView;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+
 
     public MainFragment(){}
 
@@ -79,5 +83,4 @@ public class MainFragment extends Fragment {
             }
         });
     }
-
 }

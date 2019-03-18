@@ -1,6 +1,9 @@
 package com.spareroom.speedflatmating.model;
 
-public class Event {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Event implements Parcelable {
 
     private String imageUrl;
     private String location;
@@ -9,6 +12,16 @@ public class Event {
     private String endTime;
     private String cost;
     private String phoneNumber = "0161 768 1162";
+
+    public Event(String imageUrl, String location, String venue, String startTime, String endTime, String cost, String phoneNumber) {
+        this.imageUrl = imageUrl;
+        this.location = location;
+        this.venue = venue;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.cost = cost;
+        this.phoneNumber = phoneNumber;
+    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -65,4 +78,42 @@ public class Event {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(imageUrl);
+        dest.writeString(location);
+        dest.writeString(venue);
+        dest.writeString(startTime);
+        dest.writeString(endTime);
+        dest.writeString(cost);
+        dest.writeString(phoneNumber);
+    }
+
+    protected Event(Parcel in) {
+        imageUrl = in.readString();
+        location = in.readString();
+        venue = in.readString();
+        startTime = in.readString();
+        endTime = in.readString();
+        cost = in.readString();
+        phoneNumber = in.readString();
+    }
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 }
