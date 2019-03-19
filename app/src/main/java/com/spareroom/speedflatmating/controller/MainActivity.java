@@ -26,10 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (mFragmentManager != null) {
             if (savedInstanceState != null) {
-                // Find fragment
                 mFragmentManager.findFragmentByTag(FRAGMENT_TAG);
             } else {
-                // Create Fragment
                 mFragment = new MainFragment();
                 mFragmentManager.beginTransaction()
                         .add(R.id.container, mFragment)

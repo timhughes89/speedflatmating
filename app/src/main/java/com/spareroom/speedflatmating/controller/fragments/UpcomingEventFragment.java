@@ -22,12 +22,16 @@ import android.widget.ProgressBar;
 import com.spareroom.speedflatmating.R;
 import com.spareroom.speedflatmating.controller.adapters.UpcomingEventAdapter;
 import com.spareroom.speedflatmating.model.Event;
+import com.spareroom.speedflatmating.model.EventHeader;
+import com.spareroom.speedflatmating.model.EventSection;
 import com.spareroom.speedflatmating.network.EventApiService;
 import com.spareroom.speedflatmating.network.RetrofitClientInstance;
 import com.spareroom.speedflatmating.ui.ItemOffsetDecoration;
 import com.spareroom.speedflatmating.ui.OnItemClickListener;
+import com.spareroom.speedflatmating.utils.EventUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -40,12 +44,14 @@ public class UpcomingEventFragment extends Fragment implements OnItemClickListen
 
     private static final String TAG = UpcomingEventFragment.class.getSimpleName();
 
-    private List<Event> eventList = new ArrayList<>();
+    private EventUtils eventUtils = new EventUtils();
     private View mView;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
     private MenuItem ascendingMenuItem;
     private MenuItem descendingMenuItem;
+
+    private List<Event> eventsList = new ArrayList<>();
 
     public UpcomingEventFragment() {
     }
@@ -80,8 +86,10 @@ public class UpcomingEventFragment extends Fragment implements OnItemClickListen
             @Override
             public void onResponse(@NonNull Call<List<Event>> call, @NonNull Response<List<Event>> response) {
                 if (response.body() != null) {
-                    eventList = response.body();
-                    sortByAscending(eventList);
+//                    displayList(response.body());
+                    eventsList = response.body();
+                    sortByAscending(eventsList);
+                    displayList(eventsList);
                     mProgressBar.setVisibility(View.GONE);
                 }
             }
@@ -93,7 +101,33 @@ public class UpcomingEventFragment extends Fragment implements OnItemClickListen
         });
     }
 
-    private void updateAdapter(List<Event> eventList) {
+    private void displayList(List<Event> events){
+        final List<EventSection> eventSections = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            List<Event> eventsInMonth = getEventsInMonth(events, i);
+
+            if(!eventsInMonth.isEmpty()){
+                eventSections.add(new EventHeader(i));
+                eventSections.addAll(eventsInMonth);
+            }
+        }
+        updateAdapter(eventSections);
+    }
+
+    private List<Event> getEventsInMonth(List<Event> eventList, int monthFilter) {
+        final List<Event> eventsInMonth = new ArrayList<>();
+        for (Event event : eventList) {
+            Calendar date = Calendar.getInstance();
+            date.setTime(eventUtils.getDateFromStartDate(event.getStartTime()));
+            int month = date.get(Calendar.MONTH);
+            if (month == monthFilter) {
+                eventsInMonth.add(event);
+            }
+        }
+        return eventsInMonth;
+    }
+
+    private void updateAdapter(List<EventSection> eventList) {
         UpcomingEventAdapter upcomingEventAdapter = new UpcomingEventAdapter(getContext(), this);
         upcomingEventAdapter.addEvents(eventList);
         mRecyclerView.setAdapter(upcomingEventAdapter);
@@ -117,7 +151,6 @@ public class UpcomingEventFragment extends Fragment implements OnItemClickListen
                 return o1.getStartTime().compareTo(o2.getStartTime());
             }
         });
-        updateAdapter(eventList);
     }
 
     private void sortByDescending(List<Event> eventList) {
@@ -127,7 +160,6 @@ public class UpcomingEventFragment extends Fragment implements OnItemClickListen
                 return o2.getStartTime().compareTo(o1.getStartTime());
             }
         });
-        updateAdapter(eventList);
     }
 
     @Override
@@ -145,12 +177,14 @@ public class UpcomingEventFragment extends Fragment implements OnItemClickListen
 
         switch (itemId) {
             case R.id.action_order_ascending:
-                sortByAscending(eventList);
+                sortByAscending(eventsList);
+                displayList(eventsList);
                 ascendingMenuItem.setChecked(true);
                 descendingMenuItem.setChecked(false);
                 break;
             case R.id.action_order_descending:
-                sortByDescending(eventList);
+                sortByDescending(eventsList);
+                displayList(eventsList);
                 ascendingMenuItem.setChecked(false);
                 descendingMenuItem.setChecked(true);
                 break;

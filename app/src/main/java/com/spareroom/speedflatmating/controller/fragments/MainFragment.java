@@ -14,11 +14,6 @@ import android.view.ViewGroup;
 
 import com.spareroom.speedflatmating.R;
 import com.spareroom.speedflatmating.controller.adapters.ViewPagerAdapter;
-import com.spareroom.speedflatmating.model.Event;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainFragment extends Fragment {
 

@@ -63,6 +63,16 @@ public class EventUtils {
         return formattedTime;
     }
 
+    public Date getDateFromStartDate(String startTime){
+        Date date = null;
+        try {
+            date = utcFormatter.parse(startTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
     public void loadImage(Context context, String imageUrl, ImageView imageView) {
         Glide.with(context).load(imageUrl).centerCrop().into(imageView);
     }
